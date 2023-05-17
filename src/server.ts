@@ -1,15 +1,16 @@
-import { PrismaClient } from '@prisma/client'
+import cors from '@fastify/cors'
 import fastify from 'fastify'
+import { memoriesRoutes } from './routes/memories'
 
 const app = fastify()
-const prisma = new PrismaClient()
+
+app.register(cors, {
+  origin: true,
+})
+app.register(memoriesRoutes)
 
 app.get('/', () => {
   return 'Api TimeCapsule - NLW SapceTime'
-})
-
-app.get('/user', () => {
-  return prisma.user.findMany()
 })
 
 const port = Number(process.env.PORT) || 3333
